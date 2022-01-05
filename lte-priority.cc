@@ -29,7 +29,8 @@
 #include "ns3/netanim-module.h"
 #include "ns3/flow-monitor-module.h"
 #include "ns3/network-module.h"
-#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
 //#include "ns3/gtk-config-store.h"
 
 using namespace ns3;
@@ -47,10 +48,6 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE ("SourceFile"); // we can give any name
 
-// uint32_t totalDataRx = 0;
-// uint32_t received;
-// uint32_t transmit;
-// double delay = 0;
 class MyTag : public Tag
 {
 public:
@@ -147,42 +144,42 @@ void RxTrace(std::string context, Ptr<const Packet> pkt, const Address &a, const
 		ue4PktCount++;
 		ue4Delay += rxTime - txTime;
 	}
-	if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.6"))
-	{
-		pkt->PeekPacketTag(tag);
-		txTime = tag.GetTxTm();
-		rxTime = Simulator::Now();
-		ue5Data = ue5Data + pkt->GetSize();
-		ue5PktCount++;
-		ue5Delay += rxTime - txTime;
-	}
-	if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.7"))
-	{
-		pkt->PeekPacketTag(tag);
-		txTime = tag.GetTxTm();
-		rxTime = Simulator::Now();
-		ue6Data = ue6Data + pkt->GetSize();
-		ue6PktCount++;
-		ue6Delay += rxTime - txTime;
-	}
-	if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.8"))
-	{
-		pkt->PeekPacketTag(tag);
-		txTime = tag.GetTxTm();
-		rxTime = Simulator::Now();
-		ue7Data = ue7Data + pkt->GetSize();
-		ue7PktCount++;
-		ue7Delay += rxTime - txTime;
-	}
-	if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.9"))
-	{
-		pkt->PeekPacketTag(tag);
-		txTime = tag.GetTxTm();
-		rxTime = Simulator::Now();
-		ue8Data = ue8Data + pkt->GetSize();
-		ue8PktCount++;
-		ue8Delay += rxTime - txTime;
-	}
+	// if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.6"))
+	// {
+	// 	pkt->PeekPacketTag(tag);
+	// 	txTime = tag.GetTxTm();
+	// 	rxTime = Simulator::Now();
+	// 	ue5Data = ue5Data + pkt->GetSize();
+	// 	ue5PktCount++;
+	// 	ue5Delay += rxTime - txTime;
+	// }
+	// if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.7"))
+	// {
+	// 	pkt->PeekPacketTag(tag);
+	// 	txTime = tag.GetTxTm();
+	// 	rxTime = Simulator::Now();
+	// 	ue6Data = ue6Data + pkt->GetSize();
+	// 	ue6PktCount++;
+	// 	ue6Delay += rxTime - txTime;
+	// }
+	// if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.8"))
+	// {
+	// 	pkt->PeekPacketTag(tag);
+	// 	txTime = tag.GetTxTm();
+	// 	rxTime = Simulator::Now();
+	// 	ue7Data = ue7Data + pkt->GetSize();
+	// 	ue7PktCount++;
+	// 	ue7Delay += rxTime - txTime;
+	// }
+	// if(InetSocketAddress::ConvertFrom(a).GetIpv4() == Ipv4Address("7.0.0.9"))
+	// {
+	// 	pkt->PeekPacketTag(tag);
+	// 	txTime = tag.GetTxTm();
+	// 	rxTime = Simulator::Now();
+	// 	ue8Data = ue8Data + pkt->GetSize();
+	// 	ue8PktCount++;
+	// 	ue8Delay += rxTime - txTime;
+	// }
 }
 
 void TxTrace(std::string context, Ptr<const Packet> pkt, const Address &src, const Address &dest)
@@ -193,27 +190,11 @@ void TxTrace(std::string context, Ptr<const Packet> pkt, const Address &src, con
 }
 
 
-
-// void
-// RxAtSink (std::string context, Ptr<const Packet> p, const Address &address)
-// {
-//   totalDataRx += p->GetSize ();
-//   received = Simulator::Now ().GetNanoSeconds ();
-//   delay += received - transmit;
-//   std::cout << "Delay for this packet is " << delay << " nanoSeconds\n";
-// }
-
-// void
-// TxUdp (std::string context, Ptr<const Packet> p)
-// {
-//   transmit = Simulator::Now ().GetNanoSeconds ();
-// }
-
 int
 main (int argc, char *argv[])
 {
-  uint16_t numUe = 8; // numNodePairs
-  Time simTime = MilliSeconds (1000);
+  uint16_t numUe = 4; // numNodePairs
+  Time simTime = MilliSeconds (100000);
   double distance = 20.0;
   Time interPacketInterval = MilliSeconds (10); // time delay between two packets
   bool useCa = false;
@@ -275,7 +256,7 @@ main (int argc, char *argv[])
   // below are some attributes which are setting
   p2ph.SetDeviceAttribute ("DataRate", DataRateValue (DataRate ("100Gb/s")));
   p2ph.SetDeviceAttribute ("Mtu", UintegerValue (1500));
-  p2ph.SetChannelAttribute ("Delay", TimeValue (MilliSeconds (10)));
+  p2ph.SetChannelAttribute ("Delay", TimeValue (MilliSeconds (1.5)));
   NetDeviceContainer internetDevices = p2ph.Install (pgw, remoteHost);
 
   // now we are installing network cards or ethernet cards
@@ -383,8 +364,8 @@ main (int argc, char *argv[])
 
           UdpEchoClientHelper ulClient (remoteHostAddr, ulPort);
           ulClient.SetAttribute ("Interval", TimeValue (interPacketInterval));
-          ulClient.SetAttribute ("MaxPackets", UintegerValue (1));
-          ulClient.SetAttribute ("PacketSize", UintegerValue (1000));
+          ulClient.SetAttribute ("MaxPackets", UintegerValue (1000));
+          ulClient.SetAttribute ("PacketSize", UintegerValue (2048));
           clientApps.Add (ulClient.Install (ueNodes.Get (u)));
         }
 
@@ -417,11 +398,16 @@ main (int argc, char *argv[])
   flowNodes.Add (remoteHost);
   monitor = flowmon.Install (flowNodes);
 
+  // avgDelay = ue1Delay.GetSeconds()/ue1PktCount + ue2Delay.GetSeconds()/ue2PktCount + ue3Delay.GetSeconds()/ue3PktCount + ue4Delay.GetSeconds()/ue4PktCount + ue5Delay.GetSeconds()/ue5PktCount+ ue6Delay.GetSeconds()/ue6PktCount;
+  // avgThroughput = (ue1Data*8)/ue1Delay.GetSeconds()/1000 + (ue2Data*8)/ue2Delay.GetSeconds()/1000 + (ue3Data*8)/ue3Delay.GetSeconds()/1000 + (ue4Data*8)/ue4Delay.GetSeconds()/1000 + (ue5Data*8)/ue5Delay.GetSeconds()/1000 + (ue6Data*8)/ue6Delay.GetSeconds()/1000;
+  // avgDelay /= numUe;
+  // avgThroughput /= numUe;
+
   Simulator::Stop (simTime);
   
   Simulator::Run ();
 
-  std::cout<<"\nNo. of prioritized UE: 3\n";
+  std::cout<<"\nNo. of prioritized UE: 2\n";
   std::cout<<"------------------------------------------------------------------------\n";
   std::cout<<"UE\tData(Bytes)\tPackets\t\tAvg Delay(sec)\tThroughput(kbps)\n";
   std::cout<<"------------------------------------------------------------------------\n";
@@ -429,12 +415,14 @@ main (int argc, char *argv[])
   std::cout<<"2\t"<<ue2Data<<"\t\t"<<ue2PktCount<<"\t\t"<<ue2Delay.GetSeconds()/ue2PktCount<<"\t"<<(ue2Data*8)/ue2Delay.GetSeconds()/1000<<std::endl;
   std::cout<<"3\t"<<ue3Data<<"\t\t"<<ue3PktCount<<"\t\t"<<ue3Delay.GetSeconds()/ue3PktCount<<"\t"<<(ue3Data*8)/ue3Delay.GetSeconds()/1000<<std::endl;
   std::cout<<"4\t"<<ue4Data<<"\t\t"<<ue4PktCount<<"\t\t"<<ue4Delay.GetSeconds()/ue4PktCount<<"\t"<<(ue4Data*8)/ue4Delay.GetSeconds()/1000<<std::endl;
-  std::cout<<"5\t"<<ue5Data<<"\t\t"<<ue5PktCount<<"\t\t"<<ue5Delay.GetSeconds()/ue5PktCount<<"\t"<<(ue5Data*8)/ue5Delay.GetSeconds()/1000<<std::endl;
-  std::cout<<"6\t"<<ue6Data<<"\t\t"<<ue6PktCount<<"\t\t"<<ue6Delay.GetSeconds()/ue6PktCount<<"\t"<<(ue6Data*8)/ue6Delay.GetSeconds()/1000<<std::endl;
-  std::cout<<"7\t"<<ue7Data<<"\t\t"<<ue7PktCount<<"\t\t"<<ue7Delay.GetSeconds()/ue7PktCount<<"\t"<<(ue7Data*8)/ue7Delay.GetSeconds()/1000<<std::endl;
-  std::cout<<"8\t"<<ue8Data<<"\t\t"<<ue8PktCount<<"\t\t"<<ue8Delay.GetSeconds()/ue8PktCount<<"\t"<<(ue8Data*8)/ue8Delay.GetSeconds()/1000<<std::endl;
+  // std::cout<<"5\t"<<ue5Data<<"\t\t"<<ue5PktCount<<"\t\t"<<ue5Delay.GetSeconds()/ue5PktCount<<"\t"<<(ue5Data*8)/ue5Delay.GetSeconds()/1000<<std::endl;
+  // std::cout<<"6\t"<<ue6Data<<"\t\t"<<ue6PktCount<<"\t\t"<<ue6Delay.GetSeconds()/ue6PktCount<<"\t"<<(ue6Data*8)/ue6Delay.GetSeconds()/1000<<std::endl;
+  // std::cout<<"7\t"<<ue7Data<<"\t\t"<<ue7PktCount<<"\t\t"<<ue7Delay.GetSeconds()/ue7PktCount<<"\t"<<(ue7Data*8)/ue7Delay.GetSeconds()/1000<<std::endl;
+  // std::cout<<"8\t"<<ue8Data<<"\t\t"<<ue8PktCount<<"\t\t"<<ue8Delay.GetSeconds()/ue8PktCount<<"\t"<<(ue8Data*8)/ue8Delay.GetSeconds()/1000<<std::endl;
   std::cout<<"------------------------------------------------------------------------\n";
 
+  std::cout<<"Average Delay(sec) is: "<<(ue1Delay.GetSeconds()/ue1PktCount + ue2Delay.GetSeconds()/ue2PktCount + ue3Delay.GetSeconds()/ue3PktCount + ue4Delay.GetSeconds()/ue4PktCount)/numUe<<std::endl;
+  std::cout<<"Average Throughput(kbps) is: "<<((ue1Data*8)/ue1Delay.GetSeconds()/1000 + (ue2Data*8)/ue2Delay.GetSeconds()/1000 + (ue3Data*8)/ue3Delay.GetSeconds()/1000 + (ue4Data*8)/ue4Delay.GetSeconds()/1000)/numUe<<std::endl;
   Simulator::Destroy ();
   return 0;
 }

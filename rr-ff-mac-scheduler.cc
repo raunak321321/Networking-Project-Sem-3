@@ -261,7 +261,8 @@ updateRBs (node *&nodee, double factor,vector<int> &v)
     return;
 
   int temp = round(nodee->RBs * factor);
-  if(temp<3) temp = 3;
+  if((nodee->RBs * factor)<=1) temp = 3;
+  else if((nodee->RBs * factor)<=3) temp = 4;
   nodee->RBs = temp;
   v[nodee->ue] = temp;
   updateRBs (nodee->left, factor,v);
@@ -279,8 +280,8 @@ vector<int> useOfOwnBuiltFunction(){
 
   /* Constructing tree given in
 	the above figure */
-  noOfUE = 8;
-  noOfPriotized = 3;
+  noOfUE = 4;
+  noOfPriotized = 2;
 
   srand (time (0));
   vector<int> v (noOfUE);
@@ -1630,7 +1631,7 @@ RrFfMacScheduler::DoSchedUlTriggerReq (const struct FfMacSchedSapProvider::Sched
       int k = m_cschedCellConfig.m_ulBandwidth - rbAllocated;
       if(id<=noOfPriotized){
         k -= rbPerFlow;
-        if(k<3){
+        if(k<3 && k>=0){
           rbPerFlow+=k;
         }
         else{
@@ -1640,7 +1641,7 @@ RrFfMacScheduler::DoSchedUlTriggerReq (const struct FfMacSchedSapProvider::Sched
             if(mappingOfIdWithRbs[id]<=k){
               k -= mappingOfIdWithRbs[id];
               if(k==0) break;
-              if(k<3) rbPerFlow += k;
+              if(k<3 && k>=0) rbPerFlow += k;
             }
             else{
               if(mappingOfIdWithRbs[id]-k>3)
@@ -1650,26 +1651,26 @@ RrFfMacScheduler::DoSchedUlTriggerReq (const struct FfMacSchedSapProvider::Sched
         }
       }
       else{
-        if(k<3) rbPerFlow +=k;
+        if(k<3 && k>=0) rbPerFlow +=k;
       }
 
-      bool halfAllocation = false;
+      // bool halfAllocation = false;
       if (rbAllocated + rbPerFlow  > m_cschedCellConfig.m_ulBandwidth)
         {
           // cout<<m_cschedCellConfig.m_ulBandwidth<<endl;
           // limit to physical resources last resource assignment
           int temp = rbPerFlow;
           rbPerFlow = m_cschedCellConfig.m_ulBandwidth - rbAllocated;
-          cout<<rbAllocated<<endl;
+          // cout<<rbAllocated<<endl;
           int temp1 = temp - rbPerFlow;
           if(temp1>=3)
-            halfAllocation = true;
+            // halfAllocation = true;
           // at least 3 rbg per flow to ensure TxOpportunity >= 7 bytes
           if (rbPerFlow < 3)
             {
               // terminate allocation
               rbPerFlow = 0;      
-              halfAllocation = false;
+              // halfAllocation = false;
             }
         }
       NS_LOG_INFO (this << " try to allocate " << (*it).first);
