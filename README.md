@@ -12,4 +12,5 @@ cannot be more than one for all nodes.
   &emsp; It gives better search time complexity when compared to
 simple Binary Search trees.<br> 
   &emsp; AVL trees have self-balancing capabilities.<br>
-  &emsp; Helps in giving more rbs to higher priorities.<br>
+  &emsp; Using these advantages we can give more rbs to the right side of the tree as compared to left side of the tree.<br>
+  &emsp; Means higher priorities UEs will get more RBs as compared to lower priorities.<br>
