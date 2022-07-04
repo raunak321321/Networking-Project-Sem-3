@@ -14,3 +14,6 @@ simple Binary Search trees.<br>
   &emsp; iii. AVL trees have self-balancing capabilities.<br>
   &emsp; iv. Using these advantages we can give more rbs to the right side of the tree as compared to left side of the tree.<br>
   &emsp; v. Means higher priorities UEs will get more RBs as compared to lower priorities.<br>
+  
+## How to `Run`?
+      `./waf --run scratch/lte-priority` to run lte-priority which is there in scratch folder of ns3.
