@@ -8,8 +8,8 @@ AVL tree is a self-balancing Binary Search Tree (BST)
 where the difference between heights of left and right subtrees
 cannot be more than one for all nodes.
 1) Advantages :
- ..* The height of the AVL tree is always balanced.
- 2. It gives better search time complexity when compared to
+ * The height of the AVL tree is always balanced.
+ * It gives better search time complexity when compared to
 simple Binary Search trees. 
  3. AVL trees have self-balancing capabilities.
  Helps in giving more rbs to higher priorities.
