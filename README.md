@@ -1,4 +1,4 @@
-# **Networking-Project-Sem-3**
+# **Networking-Project**
 ## The project encompasses a derivation of my own AVL-tree-based algorithm for resource block allocation to the given LTE network, where the number of resource blocks (RBs) is allocated to User Equipment (UEs) based on the demanded application by each pair.
 ## Main Target - 
 To Provide higher priority UEs more
